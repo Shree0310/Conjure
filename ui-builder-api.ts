@@ -40,7 +40,7 @@ Example output format:
 export async function generateUI(prompt: string): Promise<string> {
   try {
     const response = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-sonnet-5-5",
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [
@@ -77,7 +77,7 @@ export async function improveUI(
 ): Promise<string> {
   try {
     const response = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-sonnet-5-5",
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [

@@ -27,7 +27,7 @@ export async function sendMessage(
   onChunk?: (text: string) => void
 ): Promise<string> {
   const stream = await client.messages.stream({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-sonnet-5-5",
     max_tokens: 4096,
     messages: messages,
   });

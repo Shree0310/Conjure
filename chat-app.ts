@@ -1,4 +1,5 @@
 import { Sandbox } from "@vercel/sandbox";
+import { vercelCredentials } from "./vercel-credentials.js";
 
 const PORT = 5173;
 
@@ -171,7 +172,7 @@ export default function App() {
 
 async function main() {
   console.log("Creating sandbox with chat interface...");
-  const sandbox = await Sandbox.create({ runtime: "node22", ports: [PORT] });
+  const sandbox = await Sandbox.create({ ...vercelCredentials(), runtime: "node22", ports: [PORT] });
 
   await sandbox.mkDir("src");
   await sandbox.writeFiles(

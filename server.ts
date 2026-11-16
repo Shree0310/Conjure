@@ -49,7 +49,7 @@ app.post("/api/generate", async (req, res) => {
     console.log(`🎨 Generating UI for: "${prompt}"`);
 
     const response = await client.messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-sonnet-5-5",
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [
@@ -87,7 +87,7 @@ app.post("/api/improve", async (req, res) => {
     console.log(`🔧 Improving UI with feedback: "${feedback}"`);
 
     const response = await client.messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-sonnet-5-5",
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [

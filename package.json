@@ -10,7 +10,9 @@
     "ui-builder": "tsx ui-builder.ts",
     "ui-api": "tsx ui-builder-api.ts",
     "server": "tsx server.ts",
-    "build": "tsx ui-builder-connected.ts"
+    "build": "tsx ui-builder-connected.ts",
+    "preview": "tsx preview-sandbox.ts",
+    "dev": "tsx dev.ts"
   },
   "keywords": [],
   "author": "",
