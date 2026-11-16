@@ -3,6 +3,7 @@
  * Run this alongside the UI builder to enable real AI generation
  */
 
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import Anthropic from "@anthropic-ai/sdk";
@@ -43,7 +44,7 @@ app.post("/api/generate", async (req, res) => {
     console.log(`🎨 Generating UI for: "${prompt}"`);
 
     const response = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-3-5-sonnet-20241022",
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [
@@ -81,7 +82,7 @@ app.post("/api/improve", async (req, res) => {
     console.log(`🔧 Improving UI with feedback: "${feedback}"`);
 
     const response = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-3-5-sonnet-20241022",
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [
