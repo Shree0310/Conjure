@@ -1,62 +1,88 @@
+import "dotenv/config";
 import { Sandbox } from "@vercel/sandbox";
-import { vercelCredentials } from "./vercel-credentials.js";
+import Anthropic from "@anthropic-ai/sdk";
+import * as readline from "readline";
 
-const PORT = 5173;
+// Validate credentials
+const { ANTHROPIC_API_KEY, VERCEL_TOKEN, VERCEL_TEAM_ID, VERCEL_PROJECT_ID } = process.env;
 
-const files = {
-  "package.json": JSON.stringify({
-    name: "preview",
-    type: "module",
-    scripts: { dev: "vite" },
-    dependencies: { react: "^19.0.0", "react-dom": "^19.0.0" },
-    devDependencies: { vite: "^6.0.0", "@vitejs/plugin-react": "^4.3.0" },
-  }),
-  "vite.config.js": `import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-export default defineConfig({
-  plugins: [react()],
-  server: { host: "0.0.0.0", port: ${PORT}, allowedHosts: true },
-});`,
-  "index.html": `<!doctype html><html><head>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head><body><div id="root"></div>
-<script type="module" src="/src/main.jsx"></script></body></html>`,
-  "src/main.jsx": `import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
-createRoot(document.getElementById("root")).render(<App />);`,
-  "src/App.jsx": `export default function App() {
-  return <div className="min-h-screen grid place-items-center bg-indigo-600 text-white text-4xl">
-    Hello from Vercel Sandbox
-  </div>;
-}`,
-};
-
-async function main() {
-  console.log("Creating sandbox...");
-  const sandbox = await Sandbox.create({ ...vercelCredentials(), runtime: "node22", ports: [PORT] });
-
-  await sandbox.mkDir("src");
-  await sandbox.writeFiles(
-    Object.entries(files).map(([path, content]) => ({
-      path,
-      content: Buffer.from(content),
-    }))
-  );
-
-  console.log("Installing deps...");
-  const install = await sandbox.runCommand({
-    cmd: "npm",
-    args: ["install"],
-    stdout: process.stdout,
-    stderr: process.stderr,
-  });
-  if (install.exitCode !== 0) throw new Error("npm install failed");
-
-  console.log("Starting Vite...");
-  await sandbox.runCommand({ cmd: "npm", args: ["run", "dev"], detached: true });
-
-  console.log(`\nOpen: ${sandbox.domain(PORT)}`);
-  console.log(`Sandbox name: ${sandbox.name}`);
+if (!ANTHROPIC_API_KEY || !VERCEL_TOKEN || !VERCEL_TEAM_ID || !VERCEL_PROJECT_ID) {
+  console.error("❌ Missing required environment variables in .env");
+  process.exit(1);
 }
 
-main().catch(console.error);
+const anthropic = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
+const conversationHistory: Array<{ role: "user" | "assistant"; content: string }> = [];
+
+// Create readline interface
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: "\n💬 You: ",
+});
+
+console.log("🤖 Chat Interface");
+console.log("Type your messages and press Enter. Type 'exit' to quit.\n");
+
+rl.prompt();
+
+rl.on("line", async (input: string) => {
+  const userMessage = input.trim();
+
+  if (userMessage.toLowerCase() === "exit") {
+    console.log("\n👋 Goodbye!");
+    rl.close();
+    process.exit(0);
+  }
+
+  if (!userMessage) {
+    rl.prompt();
+    return;
+  }
+
+  // Add user message to history
+  conversationHistory.push({
+    role: "user",
+    content: userMessage,
+  });
+
+  try {
+    // Call Claude API
+    process.stdout.write("\n🤖 Assistant: ");
+
+    const stream = await anthropic.messages.stream({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1024,
+      messages: conversationHistory,
+    });
+
+    let assistantMessage = "";
+
+    for await (const chunk of stream) {
+      if (
+        chunk.type === "content_block_delta" &&
+        chunk.delta.type === "text_delta"
+      ) {
+        const text = chunk.delta.text;
+        process.stdout.write(text);
+        assistantMessage += text;
+      }
+    }
+
+    // Add assistant message to history
+    conversationHistory.push({
+      role: "assistant",
+      content: assistantMessage,
+    });
+
+    console.log("\n");
+  } catch (error) {
+    console.error("\n❌ Error:", error instanceof Error ? error.message : error);
+  }
+
+  rl.prompt();
+});
+
+rl.on("close", () => {
+  process.exit(0);
+});

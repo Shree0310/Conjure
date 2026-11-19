@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///Users/sourashree/Desktop/my-sandbox-app/app/page.tsx"],"sourcesContent":["import SplitView from \"@/components/SplitView\";\n\nexport default function Home() {\n  return <SplitView />;\n}\n"],"names":["Home","SplitView"],"mappings":";;;;;;;;;;;;AAEe,SAASA;IACtB,qBAAO,wbAACC;;;;;AACV"}}]
+}
