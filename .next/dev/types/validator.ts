@@ -96,6 +96,16 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/git-push/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/git-push">> = Specific
+  const handler = {} as typeof import("../../../app/api/git-push/route.js")
+  type __Check = __IsExpected<typeof handler>
+  
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 
 
 

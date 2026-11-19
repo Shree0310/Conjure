@@ -385,6 +385,7 @@ async function POST(request) {
         // Check if the response contains a sandbox creation request
         const jsonMatch = message.match(/```json\s*\n([\s\S]*?)\n```/);
         let sandboxUrl = null;
+        let sandboxId = null;
         if (jsonMatch) {
             try {
                 const config = JSON.parse(jsonMatch[1]);
@@ -400,6 +401,9 @@ async function POST(request) {
                             4321
                         ]
                     });
+                    // Sandbox is identified by name, not id
+                    sandboxId = sandbox.name;
+                    console.log("Sandbox created with name:", sandboxId);
                     // Write all files
                     const fileEntries = Object.entries(config.files).map(([path, content])=>({
                             path,
@@ -447,9 +451,15 @@ async function POST(request) {
         cleanMessage = cleanMessage.replace(/\{\s*"createSandbox"[\s\S]*?\}\s*/g, "").trim();
         // Clean up any extra whitespace or newlines
         cleanMessage = cleanMessage.replace(/\n{3,}/g, "\n\n").trim();
+        console.log("API Response:", {
+            messageLength: cleanMessage.length,
+            sandboxUrl,
+            sandboxId
+        });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             message: cleanMessage,
-            sandboxUrl
+            sandboxUrl,
+            sandboxId
         });
     } catch (error) {
         console.error("Chat API error:", error);

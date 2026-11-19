@@ -13,7 +13,17 @@ export default function SplitView() {
   const [isLoading, setIsLoading] = useState(false);
   const [sandboxUrl, setSandboxUrl] = useState<string | null>(null);
   const [previewContent, setPreviewContent] = useState<string>("");
+  const [githubRepo, setGithubRepo] = useState("");
+  const [isPushing, setIsPushing] = useState(false);
+  const [sandboxId, setSandboxId] = useState<string | null>(null);
+  const [loadingMessage, setLoadingMessage] = useState("Thinking...");
+  const [pushingMessage, setPushingMessage] = useState("Initializing...");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Debug: Monitor sandboxId changes
+  useEffect(() => {
+    console.log("🔍 sandboxId state changed:", sandboxId);
+  }, [sandboxId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -22,6 +32,55 @@ export default function SplitView() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (!isLoading) return;
+
+    const loadingMessages = [
+      "Thinking...",
+      "Understanding your request...",
+      "Generating code...",
+      "Creating project structure...",
+      "Building components...",
+      "Setting up configuration...",
+      "Crafting beautiful design...",
+      "Adding final touches...",
+      "Almost ready...",
+    ];
+
+    let currentIndex = 0;
+    setLoadingMessage(loadingMessages[0]);
+
+    const interval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % loadingMessages.length;
+      setLoadingMessage(loadingMessages[currentIndex]);
+    }, 3500); // Change message every 3.5 seconds
+
+    return () => clearInterval(interval);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!isPushing) return;
+
+    const pushingMessages = [
+      "Initializing git...",
+      "Adding files...",
+      "Creating commit...",
+      "Connecting to GitHub...",
+      "Pushing to remote...",
+      "Finalizing...",
+    ];
+
+    let currentIndex = 0;
+    setPushingMessage(pushingMessages[0]);
+
+    const interval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % pushingMessages.length;
+      setPushingMessage(pushingMessages[currentIndex]);
+    }, 2500); // Change message every 2.5 seconds
+
+    return () => clearInterval(interval);
+  }, [isPushing]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -44,6 +103,8 @@ export default function SplitView() {
       }
 
       const data = await response.json();
+      console.log("Full API response:", JSON.stringify(data, null, 2));
+
       const assistantMessage: Message = {
         role: "assistant",
         content: data.message,
@@ -52,7 +113,17 @@ export default function SplitView() {
 
       // If response contains a sandbox URL, update the preview
       if (data.sandboxUrl) {
+        console.log("Setting sandboxUrl:", data.sandboxUrl);
         setSandboxUrl(data.sandboxUrl);
+      }
+
+      // If response contains sandbox ID, store it
+      if (data.sandboxId) {
+        console.log("✅ Received sandboxId:", data.sandboxId);
+        setSandboxId(data.sandboxId);
+        console.log("✅ State should now have sandboxId");
+      } else {
+        console.log("❌ No sandboxId in response");
       }
 
       // If response contains preview content, update it
@@ -78,6 +149,50 @@ export default function SplitView() {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
+    }
+  };
+
+  const handleGitPush = async () => {
+    if (!githubRepo.trim() || !sandboxId || isPushing) return;
+
+    setIsPushing(true);
+
+    try {
+      const response = await fetch("/api/git-push", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sandboxId,
+          githubRepo: githubRepo.trim(),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+        throw new Error(errorData.error || `API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: `✅ Successfully pushed to GitHub!\n\nRepository: ${githubRepo}\nCommit: ${data.commitHash || 'Initial commit'}`,
+        },
+      ]);
+    } catch (error) {
+      console.error("Error pushing to GitHub:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: `❌ Failed to push to GitHub: ${errorMessage}\n\nMake sure the repository exists and you have access rights.`,
+        },
+      ]);
+    } finally {
+      setIsPushing(false);
     }
   };
 
@@ -159,10 +274,15 @@ export default function SplitView() {
                   <span className="text-white text-sm">AI</span>
                 </div>
                 <div className="bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl px-5 py-4 shadow-lg">
-                  <div className="flex space-x-2">
-                    <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce shadow-lg shadow-blue-500/50"></div>
-                    <div className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-bounce [animation-delay:0.2s] shadow-lg shadow-purple-500/50"></div>
-                    <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce [animation-delay:0.4s] shadow-lg shadow-blue-500/50"></div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex space-x-2">
+                      <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce shadow-lg shadow-blue-500/50"></div>
+                      <div className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-bounce [animation-delay:0.2s] shadow-lg shadow-purple-500/50"></div>
+                      <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce [animation-delay:0.4s] shadow-lg shadow-blue-500/50"></div>
+                    </div>
+                    <span className="text-slate-300 text-sm font-medium animate-pulse">
+                      {loadingMessage}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -173,6 +293,49 @@ export default function SplitView() {
 
         {/* Input */}
         <div className="bg-gradient-to-r from-slate-900/90 to-slate-800/90 backdrop-blur-sm px-6 py-6 border-t border-slate-700/50 shadow-2xl">
+          {/* GitHub Integration */}
+          {sandboxId && (
+            <div className="mb-4 pb-4 border-b border-slate-700/50">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <span className="text-sm font-medium text-slate-300">Push to GitHub</span>
+              </div>
+              <div className="flex gap-2">
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    value={githubRepo}
+                    onChange={(e) => setGithubRepo(e.target.value)}
+                    placeholder="https://github.com/username/repo.git"
+                    className="w-full bg-slate-800/50 text-white placeholder-slate-500 rounded-lg pl-3 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 border border-slate-700/50 backdrop-blur-sm transition-all duration-200"
+                    disabled={isPushing}
+                  />
+                </div>
+                <button
+                  onClick={handleGitPush}
+                  disabled={isPushing || !githubRepo.trim()}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-slate-700 disabled:to-slate-800 text-white rounded-lg font-medium text-sm transition-all duration-200 disabled:cursor-not-allowed shadow-lg hover:shadow-purple-500/25 disabled:shadow-none border border-purple-500/50 disabled:border-slate-700/50 whitespace-nowrap"
+                >
+                  {isPushing ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <span className="animate-pulse">{pushingMessage}</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <span>Push</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="flex gap-3">
             <div className="flex-1 relative">
               <textarea
@@ -221,26 +384,28 @@ export default function SplitView() {
       {/* Right Panel - Sandbox Preview */}
       <div className="w-1/2 flex flex-col bg-white">
         {/* Preview Header */}
-        <div className="bg-gradient-to-r from-slate-900/90 to-slate-800/90 backdrop-blur-sm px-8 py-6 border-b border-slate-700/50 flex items-center justify-between shadow-lg">
-          <div>
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-              Live Preview
-            </h2>
-            <p className="text-slate-400 text-sm mt-1">Vercel Sandbox Environment</p>
+        <div className="bg-gradient-to-r from-slate-900/90 to-slate-800/90 backdrop-blur-sm px-8 py-6 border-b border-slate-700/50 shadow-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                Live Preview
+              </h2>
+              <p className="text-slate-400 text-sm mt-1">Vercel Sandbox Environment</p>
+            </div>
+            {sandboxUrl && (
+              <a
+                href={sandboxUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg transition-colors border border-blue-500/30 group"
+              >
+                <span className="text-sm font-medium">Open</span>
+                <svg className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            )}
           </div>
-          {sandboxUrl && (
-            <a
-              href={sandboxUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg transition-colors border border-blue-500/30 group"
-            >
-              <span className="text-sm font-medium">Open</span>
-              <svg className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-          )}
         </div>
 
         {/* Preview Content */}

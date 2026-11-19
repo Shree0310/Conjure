@@ -81,6 +81,7 @@ export async function POST(request: NextRequest) {
     // Check if the response contains a sandbox creation request
     const jsonMatch = message.match(/```json\s*\n([\s\S]*?)\n```/);
     let sandboxUrl = null;
+    let sandboxId = null;
 
     if (jsonMatch) {
       try {
@@ -97,6 +98,10 @@ export async function POST(request: NextRequest) {
             runtime: "node22",
             ports: [4321],
           });
+
+          // Sandbox is identified by name, not id
+          sandboxId = sandbox.name;
+          console.log("Sandbox created with name:", sandboxId);
 
           // Write all files
           const fileEntries = Object.entries(config.files).map(([path, content]) => ({
@@ -151,9 +156,16 @@ export async function POST(request: NextRequest) {
     // Clean up any extra whitespace or newlines
     cleanMessage = cleanMessage.replace(/\n{3,}/g, "\n\n").trim();
 
+    console.log("API Response:", {
+      messageLength: cleanMessage.length,
+      sandboxUrl,
+      sandboxId
+    });
+
     return NextResponse.json({
       message: cleanMessage,
-      sandboxUrl
+      sandboxUrl,
+      sandboxId
     });
   } catch (error) {
     console.error("Chat API error:", error);
