@@ -369,7 +369,7 @@ async function POST(request) {
         console.log("Messages:", JSON.stringify(messages, null, 2));
         const response = await anthropic.messages.create({
             model: "claude-sonnet-5-5",
-            max_tokens: 4096,
+            max_tokens: 8192,
             system: SYSTEM_PROMPT,
             messages: messages.map((msg)=>({
                     role: msg.role,
@@ -441,7 +441,12 @@ async function POST(request) {
             }
         }
         // Remove the JSON block from the message before sending to client
-        const cleanMessage = message.replace(/```json\s*\n[\s\S]*?\n```\s*/g, "").trim();
+        // Handle multiple possible formats: ```json...\n``` or just the JSON object
+        let cleanMessage = message.replace(/```json\s*\n[\s\S]*?\n```/g, "").trim();
+        // Also try to remove any remaining standalone JSON blocks
+        cleanMessage = cleanMessage.replace(/\{\s*"createSandbox"[\s\S]*?\}\s*/g, "").trim();
+        // Clean up any extra whitespace or newlines
+        cleanMessage = cleanMessage.replace(/\n{3,}/g, "\n\n").trim();
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             message: cleanMessage,
             sandboxUrl

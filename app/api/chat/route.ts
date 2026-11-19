@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     const response = await anthropic.messages.create({
       model: "claude-sonnet-5-5",
-      max_tokens: 4096,
+      max_tokens: 8192,
       system: SYSTEM_PROMPT,
       messages: messages.map((msg: any) => ({
         role: msg.role,
@@ -142,7 +142,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Remove the JSON block from the message before sending to client
-    const cleanMessage = message.replace(/```json\s*\n[\s\S]*?\n```\s*/g, "").trim();
+    // Handle multiple possible formats: ```json...\n``` or just the JSON object
+    let cleanMessage = message.replace(/```json\s*\n[\s\S]*?\n```/g, "").trim();
+
+    // Also try to remove any remaining standalone JSON blocks
+    cleanMessage = cleanMessage.replace(/\{\s*"createSandbox"[\s\S]*?\}\s*/g, "").trim();
+
+    // Clean up any extra whitespace or newlines
+    cleanMessage = cleanMessage.replace(/\n{3,}/g, "\n\n").trim();
 
     return NextResponse.json({
       message: cleanMessage,
