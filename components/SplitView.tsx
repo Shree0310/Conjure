@@ -14,10 +14,23 @@ export default function SplitView() {
   const [sandboxUrl, setSandboxUrl] = useState<string | null>(null);
   const [previewContent, setPreviewContent] = useState<string>("");
   const [githubRepo, setGithubRepo] = useState("");
-  const [isPushing, setIsPushing] = useState(false);
   const [sandboxId, setSandboxId] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState("Thinking...");
-  const [pushingMessage, setPushingMessage] = useState("Initializing...");
+
+  // GitHub workflow state
+  const [isGithubConnected, setIsGithubConnected] = useState(false);
+  const [isCommitted, setIsCommitted] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isCommitting, setIsCommitting] = useState(false);
+  const [isPushing, setIsPushing] = useState(false);
+  const [commitHistory, setCommitHistory] = useState<Array<{
+    hash: string;
+    message: string;
+    timestamp: string;
+    repo: string;
+  }>>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Debug: Monitor sandboxId changes
@@ -59,28 +72,6 @@ export default function SplitView() {
     return () => clearInterval(interval);
   }, [isLoading]);
 
-  useEffect(() => {
-    if (!isPushing) return;
-
-    const pushingMessages = [
-      "Initializing git...",
-      "Adding files...",
-      "Creating commit...",
-      "Connecting to GitHub...",
-      "Pushing to remote...",
-      "Finalizing...",
-    ];
-
-    let currentIndex = 0;
-    setPushingMessage(pushingMessages[0]);
-
-    const interval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % pushingMessages.length;
-      setPushingMessage(pushingMessages[currentIndex]);
-    }, 2500); // Change message every 2.5 seconds
-
-    return () => clearInterval(interval);
-  }, [isPushing]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -152,8 +143,77 @@ export default function SplitView() {
     }
   };
 
-  const handleGitPush = async () => {
-    if (!githubRepo.trim() || !sandboxId || isPushing) return;
+  // Step 1: Connect GitHub
+  const handleConnectGithub = async () => {
+    if (!githubRepo.trim() || isConnecting) return;
+
+    setIsConnecting(true);
+
+    // Simulate connection validation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    setIsGithubConnected(true);
+    setIsConnecting(false);
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "assistant",
+        content: `✅ GitHub connected!\n\nRepository: ${githubRepo}\n\nYou can now commit your changes.`,
+      },
+    ]);
+  };
+
+  // Step 2: Commit changes
+  const handleCommit = async () => {
+    if (!sandboxId || !isGithubConnected || isCommitting) return;
+
+    setIsCommitting(true);
+
+    try {
+      const response = await fetch("/api/git-commit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sandboxId,
+          githubRepo: githubRepo.trim(),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+        throw new Error(errorData.error || `API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      setIsCommitted(true);
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: `✅ Changes committed!\n\nCommit: ${data.commitHash || 'Initial commit'}\n\nYou can now push to GitHub.`,
+        },
+      ]);
+    } catch (error) {
+      console.error("Error committing:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: `❌ Failed to commit: ${errorMessage}`,
+        },
+      ]);
+    } finally {
+      setIsCommitting(false);
+    }
+  };
+
+  // Step 3: Push to GitHub
+  const handlePush = async () => {
+    if (!sandboxId || !isCommitted || isPushing) return;
 
     setIsPushing(true);
 
@@ -174,6 +234,15 @@ export default function SplitView() {
 
       const data = await response.json();
 
+      // Add to commit history
+      const newCommit = {
+        hash: data.commitHash || 'unknown',
+        message: 'Initial commit: AI-generated Astro website',
+        timestamp: new Date().toLocaleString(),
+        repo: githubRepo,
+      };
+      setCommitHistory((prev) => [newCommit, ...prev]);
+
       setMessages((prev) => [
         ...prev,
         {
@@ -181,6 +250,11 @@ export default function SplitView() {
           content: `✅ Successfully pushed to GitHub!\n\nRepository: ${githubRepo}\nCommit: ${data.commitHash || 'Initial commit'}`,
         },
       ]);
+
+      // Reset workflow for next iteration
+      setIsGithubConnected(false);
+      setIsCommitted(false);
+      setGithubRepo("");
     } catch (error) {
       console.error("Error pushing to GitHub:", error);
       const errorMessage = error instanceof Error ? error.message : "Unknown error";
@@ -198,6 +272,62 @@ export default function SplitView() {
 
   return (
     <div className="h-screen flex overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      {/* Collapsible Commit History Sidebar */}
+      <div className={`${isSidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 overflow-hidden bg-slate-900/50 backdrop-blur-sm border-r border-slate-700/50`}>
+        {isSidebarOpen && (
+          <div className="h-full flex flex-col">
+            <div className="px-4 py-4 border-b border-slate-700/50">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">Commit History</h3>
+                <button
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              {commitHistory.length === 0 ? (
+                <div className="text-center py-8 text-slate-500 text-sm">
+                  No commits yet
+                </div>
+              ) : (
+                commitHistory.map((commit, idx) => (
+                  <div key={idx} className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                    <div className="flex items-center gap-2 mb-2">
+                      <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-xs font-mono text-green-400">{commit.hash}</span>
+                    </div>
+                    <p className="text-sm text-slate-300 mb-2">{commit.message}</p>
+                    <div className="text-xs text-slate-500 space-y-1">
+                      <div>{commit.timestamp}</div>
+                      <div className="truncate">{commit.repo}</div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Toggle Sidebar Button (when closed) */}
+      {!isSidebarOpen && commitHistory.length > 0 && (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="absolute left-0 top-1/2 -translate-y-1/2 bg-slate-800/90 hover:bg-slate-700/90 text-white p-2 rounded-r-lg border border-l-0 border-slate-700/50 transition-colors z-10"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      )}
+
       {/* Left Panel - Chat */}
       <div className="w-1/2 flex flex-col border-r border-slate-800/50 backdrop-blur-xl">
         {/* Header */}
@@ -208,7 +338,110 @@ export default function SplitView() {
               AI Assistant
             </h1>
           </div>
-          <p className="text-slate-400 text-sm ml-6">Powered by Claude AI</p>
+          <p className="text-slate-400 text-sm ml-6 mb-4">Powered by Claude AI</p>
+
+          {/* GitHub Workflow Buttons */}
+          <div className="mt-3 space-y-2">
+            {/* GitHub URL Input */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <svg className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <input
+                  type="text"
+                  value={githubRepo}
+                  onChange={(e) => setGithubRepo(e.target.value)}
+                  placeholder="https://TOKEN@github.com/username/repo.git"
+                  className="flex-1 bg-slate-800/50 text-white placeholder-slate-500 rounded-md px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 border border-slate-700/50 backdrop-blur-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isLoading || isGithubConnected}
+                />
+              </div>
+              <p className="text-[10px] text-slate-500 ml-6">
+                Use GitHub Personal Access Token: https://YOUR_TOKEN@github.com/user/repo.git
+              </p>
+            </div>
+
+            {/* Workflow Buttons */}
+            <div className="flex gap-1.5">
+              {/* Step 1: Connect */}
+              <button
+                onClick={handleConnectGithub}
+                disabled={isLoading || !sandboxId || !githubRepo.trim() || isGithubConnected || isConnecting}
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-slate-800/50 disabled:to-slate-800/50 text-white disabled:text-slate-500 rounded-md font-medium text-xs transition-all duration-200 disabled:cursor-not-allowed shadow-md hover:shadow-blue-500/25 disabled:shadow-none border border-blue-500/50 disabled:border-slate-700/30 disabled:opacity-60"
+              >
+                {isConnecting ? (
+                  <>
+                    <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Connecting...</span>
+                  </>
+                ) : isGithubConnected ? (
+                  <>
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span>Connected</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                    <span>Connect</span>
+                  </>
+                )}
+              </button>
+
+              {/* Step 2: Commit */}
+              <button
+                onClick={handleCommit}
+                disabled={isLoading || !isGithubConnected || isCommitted || isCommitting}
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-slate-800/50 disabled:to-slate-800/50 text-white disabled:text-slate-500 rounded-md font-medium text-xs transition-all duration-200 disabled:cursor-not-allowed shadow-md hover:shadow-purple-500/25 disabled:shadow-none border border-purple-500/50 disabled:border-slate-700/30 disabled:opacity-60"
+              >
+                {isCommitting ? (
+                  <>
+                    <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Committing...</span>
+                  </>
+                ) : isCommitted ? (
+                  <>
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span>Committed</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Commit</span>
+                  </>
+                )}
+              </button>
+
+              {/* Step 3: Push */}
+              <button
+                onClick={handlePush}
+                disabled={isLoading || !isCommitted || isPushing}
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 disabled:from-slate-800/50 disabled:to-slate-800/50 text-white disabled:text-slate-500 rounded-md font-medium text-xs transition-all duration-200 disabled:cursor-not-allowed shadow-md hover:shadow-green-500/25 disabled:shadow-none border border-green-500/50 disabled:border-slate-700/30 disabled:opacity-60"
+              >
+                {isPushing ? (
+                  <>
+                    <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Pushing...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <span>Push</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Messages */}
@@ -293,49 +526,6 @@ export default function SplitView() {
 
         {/* Input */}
         <div className="bg-gradient-to-r from-slate-900/90 to-slate-800/90 backdrop-blur-sm px-6 py-6 border-t border-slate-700/50 shadow-2xl">
-          {/* GitHub Integration */}
-          {sandboxId && (
-            <div className="mb-4 pb-4 border-b border-slate-700/50">
-              <div className="flex items-center gap-2 mb-3">
-                <svg className="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                <span className="text-sm font-medium text-slate-300">Push to GitHub</span>
-              </div>
-              <div className="flex gap-2">
-                <div className="flex-1 relative">
-                  <input
-                    type="text"
-                    value={githubRepo}
-                    onChange={(e) => setGithubRepo(e.target.value)}
-                    placeholder="https://github.com/username/repo.git"
-                    className="w-full bg-slate-800/50 text-white placeholder-slate-500 rounded-lg pl-3 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 border border-slate-700/50 backdrop-blur-sm transition-all duration-200"
-                    disabled={isPushing}
-                  />
-                </div>
-                <button
-                  onClick={handleGitPush}
-                  disabled={isPushing || !githubRepo.trim()}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-slate-700 disabled:to-slate-800 text-white rounded-lg font-medium text-sm transition-all duration-200 disabled:cursor-not-allowed shadow-lg hover:shadow-purple-500/25 disabled:shadow-none border border-purple-500/50 disabled:border-slate-700/50 whitespace-nowrap"
-                >
-                  {isPushing ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      <span className="animate-pulse">{pushingMessage}</span>
-                    </>
-                  ) : (
-                    <>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                      </svg>
-                      <span>Push</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          )}
-
           <div className="flex gap-3">
             <div className="flex-1 relative">
               <textarea

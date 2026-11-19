@@ -18,49 +18,11 @@ export async function POST(request: NextRequest) {
     const sandbox = await Sandbox.get({
       name: sandboxId,
       token: process.env.VERCEL_TOKEN!,
+      teamId: process.env.VERCEL_TEAM_ID!,
+      projectId: process.env.VERCEL_PROJECT_ID!,
     });
 
-    console.log("Initializing git repository...");
-
-    // Initialize git if not already initialized
-    await sandbox.runCommand({
-      cmd: "git",
-      args: ["init"],
-    });
-
-    // Configure git user (required for commits)
-    await sandbox.runCommand({
-      cmd: "git",
-      args: ["config", "user.email", "ai-builder@example.com"],
-    });
-
-    await sandbox.runCommand({
-      cmd: "git",
-      args: ["config", "user.name", "AI Website Builder"],
-    });
-
-    // Add all files
-    console.log("Adding files to git...");
-    await sandbox.runCommand({
-      cmd: "git",
-      args: ["add", "."],
-    });
-
-    // Create initial commit
-    console.log("Creating commit...");
-    const commitResult = await sandbox.runCommand({
-      cmd: "git",
-      args: ["commit", "-m", "Initial commit: AI-generated Astro website"],
-    });
-
-    // Add remote origin
-    console.log("Adding remote origin...");
-    await sandbox.runCommand({
-      cmd: "git",
-      args: ["remote", "add", "origin", githubRepo],
-    });
-
-    // Push to GitHub
+    // Push to GitHub (commit should already exist)
     console.log("Pushing to GitHub...");
     const pushResult = await sandbox.runCommand({
       cmd: "git",
@@ -79,15 +41,15 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    console.log("Successfully pushed to GitHub!");
+
     // Get commit hash
     const hashResult = await sandbox.runCommand({
       cmd: "git",
       args: ["rev-parse", "HEAD"],
     });
 
-    const commitHash = hashResult.stdout?.trim() || "unknown";
-
-    console.log("Successfully pushed to GitHub!");
+    const commitHash = (typeof hashResult.stdout === 'string' ? hashResult.stdout.trim() : String(hashResult.stdout || '').trim()) || "unknown";
 
     return NextResponse.json({
       success: true,

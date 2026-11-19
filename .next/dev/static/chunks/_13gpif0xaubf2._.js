@@ -20,10 +20,16 @@ function SplitView() {
     const [sandboxUrl, setSandboxUrl] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [previewContent, setPreviewContent] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [githubRepo, setGithubRepo] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
-    const [isPushing, setIsPushing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [sandboxId, setSandboxId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [loadingMessage, setLoadingMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("Thinking...");
-    const [pushingMessage, setPushingMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("Initializing...");
+    // GitHub workflow state
+    const [isGithubConnected, setIsGithubConnected] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isCommitted, setIsCommitted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isConnecting, setIsConnecting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isCommitting, setIsCommitting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isPushing, setIsPushing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [commitHistory, setCommitHistory] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [isSidebarOpen, setIsSidebarOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const messagesEndRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     // Debug: Monitor sandboxId changes
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -73,32 +79,6 @@ function SplitView() {
         }
     }["SplitView.useEffect"], [
         isLoading
-    ]);
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "SplitView.useEffect": ()=>{
-            if (!isPushing) return;
-            const pushingMessages = [
-                "Initializing git...",
-                "Adding files...",
-                "Creating commit...",
-                "Connecting to GitHub...",
-                "Pushing to remote...",
-                "Finalizing..."
-            ];
-            let currentIndex = 0;
-            setPushingMessage(pushingMessages[0]);
-            const interval = setInterval({
-                "SplitView.useEffect.interval": ()=>{
-                    currentIndex = (currentIndex + 1) % pushingMessages.length;
-                    setPushingMessage(pushingMessages[currentIndex]);
-                }
-            }["SplitView.useEffect.interval"], 2500); // Change message every 2.5 seconds
-            return ({
-                "SplitView.useEffect": ()=>clearInterval(interval)
-            })["SplitView.useEffect"];
-        }
-    }["SplitView.useEffect"], [
-        isPushing
     ]);
     const handleSend = async ()=>{
         if (!input.trim() || isLoading) return;
@@ -178,8 +158,69 @@ function SplitView() {
             handleSend();
         }
     };
-    const handleGitPush = async ()=>{
-        if (!githubRepo.trim() || !sandboxId || isPushing) return;
+    // Step 1: Connect GitHub
+    const handleConnectGithub = async ()=>{
+        if (!githubRepo.trim() || isConnecting) return;
+        setIsConnecting(true);
+        // Simulate connection validation
+        await new Promise((resolve)=>setTimeout(resolve, 1000));
+        setIsGithubConnected(true);
+        setIsConnecting(false);
+        setMessages((prev)=>[
+                ...prev,
+                {
+                    role: "assistant",
+                    content: `✅ GitHub connected!\n\nRepository: ${githubRepo}\n\nYou can now commit your changes.`
+                }
+            ]);
+    };
+    // Step 2: Commit changes
+    const handleCommit = async ()=>{
+        if (!sandboxId || !isGithubConnected || isCommitting) return;
+        setIsCommitting(true);
+        try {
+            const response = await fetch("/api/git-commit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    sandboxId,
+                    githubRepo: githubRepo.trim()
+                })
+            });
+            if (!response.ok) {
+                const errorData = await response.json().catch(()=>({
+                        error: "Unknown error"
+                    }));
+                throw new Error(errorData.error || `API error: ${response.status}`);
+            }
+            const data = await response.json();
+            setIsCommitted(true);
+            setMessages((prev)=>[
+                    ...prev,
+                    {
+                        role: "assistant",
+                        content: `✅ Changes committed!\n\nCommit: ${data.commitHash || 'Initial commit'}\n\nYou can now push to GitHub.`
+                    }
+                ]);
+        } catch (error) {
+            console.error("Error committing:", error);
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            setMessages((prev)=>[
+                    ...prev,
+                    {
+                        role: "assistant",
+                        content: `❌ Failed to commit: ${errorMessage}`
+                    }
+                ]);
+        } finally{
+            setIsCommitting(false);
+        }
+    };
+    // Step 3: Push to GitHub
+    const handlePush = async ()=>{
+        if (!sandboxId || !isCommitted || isPushing) return;
         setIsPushing(true);
         try {
             const response = await fetch("/api/git-push", {
@@ -199,6 +240,17 @@ function SplitView() {
                 throw new Error(errorData.error || `API error: ${response.status}`);
             }
             const data = await response.json();
+            // Add to commit history
+            const newCommit = {
+                hash: data.commitHash || 'unknown',
+                message: 'Initial commit: AI-generated Astro website',
+                timestamp: new Date().toLocaleString(),
+                repo: githubRepo
+            };
+            setCommitHistory((prev)=>[
+                    newCommit,
+                    ...prev
+                ]);
             setMessages((prev)=>[
                     ...prev,
                     {
@@ -206,6 +258,10 @@ function SplitView() {
                         content: `✅ Successfully pushed to GitHub!\n\nRepository: ${githubRepo}\nCommit: ${data.commitHash || 'Initial commit'}`
                     }
                 ]);
+            // Reset workflow for next iteration
+            setIsGithubConnected(false);
+            setIsCommitted(false);
+            setGithubRepo("");
         } catch (error) {
             console.error("Error pushing to GitHub:", error);
             const errorMessage = error instanceof Error ? error.message : "Unknown error";
@@ -236,7 +292,7 @@ function SplitView() {
                                         className: "w-3 h-3 bg-emerald-500 rounded-full animate-pulse shadow-lg shadow-emerald-500/50"
                                     }, void 0, false, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 206,
+                                        lineNumber: 280,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -244,13 +300,13 @@ function SplitView() {
                                         children: "AI Assistant"
                                     }, void 0, false, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 281,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 205,
+                                lineNumber: 279,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -258,13 +314,13 @@ function SplitView() {
                                 children: "Powered by Claude AI"
                             }, void 0, false, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 211,
+                                lineNumber: 285,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/SplitView.tsx",
-                        lineNumber: 204,
+                        lineNumber: 278,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -282,7 +338,7 @@ function SplitView() {
                                                     className: "absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 220,
+                                                    lineNumber: 294,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -290,13 +346,13 @@ function SplitView() {
                                                     children: "✨"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 221,
+                                                    lineNumber: 295,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 219,
+                                            lineNumber: 293,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -307,7 +363,7 @@ function SplitView() {
                                                     children: "Start a conversation"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 224,
+                                                    lineNumber: 298,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -315,13 +371,13 @@ function SplitView() {
                                                     children: "Ask me anything or describe what you'd like to build"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 225,
+                                                    lineNumber: 299,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 223,
+                                            lineNumber: 297,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -332,7 +388,7 @@ function SplitView() {
                                                     children: "Build a website"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 228,
+                                                    lineNumber: 302,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -340,7 +396,7 @@ function SplitView() {
                                                     children: "Create an app"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 231,
+                                                    lineNumber: 305,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -348,24 +404,24 @@ function SplitView() {
                                                     children: "Design a UI"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 234,
+                                                    lineNumber: 308,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 227,
+                                            lineNumber: 301,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/SplitView.tsx",
-                                    lineNumber: 218,
+                                    lineNumber: 292,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 217,
+                                lineNumber: 291,
                                 columnNumber: 13
                             }, this) : messages.map((msg, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: `flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-in slide-in-from-bottom-4 duration-300`,
@@ -379,12 +435,12 @@ function SplitView() {
                                                     children: "AI"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 249,
+                                                    lineNumber: 323,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 248,
+                                                lineNumber: 322,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -394,12 +450,12 @@ function SplitView() {
                                                     children: msg.content
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 259,
+                                                    lineNumber: 333,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 252,
+                                                lineNumber: 326,
                                                 columnNumber: 19
                                             }, this),
                                             msg.role === "user" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -409,23 +465,23 @@ function SplitView() {
                                                     children: "You"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 263,
+                                                    lineNumber: 337,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 262,
+                                                lineNumber: 336,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 246,
+                                        lineNumber: 320,
                                         columnNumber: 17
                                     }, this)
                                 }, idx, false, {
                                     fileName: "[project]/components/SplitView.tsx",
-                                    lineNumber: 242,
+                                    lineNumber: 316,
                                     columnNumber: 15
                                 }, this)),
                             isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -440,12 +496,12 @@ function SplitView() {
                                                 children: "AI"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 274,
+                                                lineNumber: 348,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 273,
+                                            lineNumber: 347,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -460,27 +516,27 @@ function SplitView() {
                                                                 className: "w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce shadow-lg shadow-blue-500/50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/SplitView.tsx",
-                                                                lineNumber: 279,
+                                                                lineNumber: 353,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "w-2.5 h-2.5 bg-purple-500 rounded-full animate-bounce [animation-delay:0.2s] shadow-lg shadow-purple-500/50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/SplitView.tsx",
-                                                                lineNumber: 280,
+                                                                lineNumber: 354,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce [animation-delay:0.4s] shadow-lg shadow-blue-500/50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/SplitView.tsx",
-                                                                lineNumber: 281,
+                                                                lineNumber: 355,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/components/SplitView.tsx",
-                                                        lineNumber: 278,
+                                                        lineNumber: 352,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -488,42 +544,42 @@ function SplitView() {
                                                         children: loadingMessage
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/SplitView.tsx",
-                                                        lineNumber: 283,
+                                                        lineNumber: 357,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 277,
+                                                lineNumber: 351,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 276,
+                                            lineNumber: 350,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/SplitView.tsx",
-                                    lineNumber: 272,
+                                    lineNumber: 346,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 271,
+                                lineNumber: 345,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 ref: messagesEndRef
                             }, void 0, false, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 291,
+                                lineNumber: 365,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/SplitView.tsx",
-                        lineNumber: 215,
+                        lineNumber: 289,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -543,12 +599,12 @@ function SplitView() {
                                                     d: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 301,
+                                                    lineNumber: 375,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 300,
+                                                lineNumber: 374,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -556,13 +612,13 @@ function SplitView() {
                                                 children: "Push to GitHub"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 303,
+                                                lineNumber: 377,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 299,
+                                        lineNumber: 373,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -579,12 +635,12 @@ function SplitView() {
                                                     disabled: isPushing
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 307,
+                                                    lineNumber: 381,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 306,
+                                                lineNumber: 380,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -597,7 +653,7 @@ function SplitView() {
                                                             className: "w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/SplitView.tsx",
-                                                            lineNumber: 323,
+                                                            lineNumber: 397,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -605,13 +661,13 @@ function SplitView() {
                                                             children: pushingMessage
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/SplitView.tsx",
-                                                            lineNumber: 324,
+                                                            lineNumber: 398,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 322,
+                                                    lineNumber: 396,
                                                     columnNumber: 21
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                                     children: [
@@ -627,42 +683,42 @@ function SplitView() {
                                                                 d: "M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/SplitView.tsx",
-                                                                lineNumber: 329,
+                                                                lineNumber: 403,
                                                                 columnNumber: 25
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/SplitView.tsx",
-                                                            lineNumber: 328,
+                                                            lineNumber: 402,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Push"
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/SplitView.tsx",
-                                                            lineNumber: 331,
+                                                            lineNumber: 405,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 327,
+                                                    lineNumber: 401,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 316,
+                                                lineNumber: 390,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 305,
+                                        lineNumber: 379,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 298,
+                                lineNumber: 372,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -680,12 +736,12 @@ function SplitView() {
                                             disabled: isLoading
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 341,
+                                            lineNumber: 415,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 340,
+                                        lineNumber: 414,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -700,20 +756,20 @@ function SplitView() {
                                                         className: "w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/SplitView.tsx",
-                                                        lineNumber: 359,
+                                                        lineNumber: 433,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Sending"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/SplitView.tsx",
-                                                        lineNumber: 360,
+                                                        lineNumber: 434,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 358,
+                                                lineNumber: 432,
                                                 columnNumber: 19
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                                 children: [
@@ -721,7 +777,7 @@ function SplitView() {
                                                         children: "Send"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/SplitView.tsx",
-                                                        lineNumber: 364,
+                                                        lineNumber: 438,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -736,34 +792,34 @@ function SplitView() {
                                                             d: "M14 5l7 7m0 0l-7 7m7-7H3"
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/SplitView.tsx",
-                                                            lineNumber: 366,
+                                                            lineNumber: 440,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/SplitView.tsx",
-                                                        lineNumber: 365,
+                                                        lineNumber: 439,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 363,
+                                                lineNumber: 437,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 356,
+                                            lineNumber: 430,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 351,
+                                        lineNumber: 425,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 339,
+                                lineNumber: 413,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -781,12 +837,12 @@ function SplitView() {
                                             d: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 375,
+                                            lineNumber: 449,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 374,
+                                        lineNumber: 448,
                                         columnNumber: 13
                                     }, this),
                                     "Press ",
@@ -795,7 +851,7 @@ function SplitView() {
                                         children: "Enter"
                                     }, void 0, false, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 377,
+                                        lineNumber: 451,
                                         columnNumber: 19
                                     }, this),
                                     " to send,",
@@ -804,7 +860,7 @@ function SplitView() {
                                         children: "Shift"
                                     }, void 0, false, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 378,
+                                        lineNumber: 452,
                                         columnNumber: 13
                                     }, this),
                                     " +",
@@ -813,26 +869,26 @@ function SplitView() {
                                         children: "Enter"
                                     }, void 0, false, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 379,
+                                        lineNumber: 453,
                                         columnNumber: 13
                                     }, this),
                                     " for new line"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 373,
+                                lineNumber: 447,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/SplitView.tsx",
-                        lineNumber: 295,
+                        lineNumber: 369,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/SplitView.tsx",
-                lineNumber: 202,
+                lineNumber: 276,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -850,7 +906,7 @@ function SplitView() {
                                             children: "Live Preview"
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 390,
+                                            lineNumber: 464,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -858,13 +914,13 @@ function SplitView() {
                                             children: "Vercel Sandbox Environment"
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 393,
+                                            lineNumber: 467,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/SplitView.tsx",
-                                    lineNumber: 389,
+                                    lineNumber: 463,
                                     columnNumber: 13
                                 }, this),
                                 sandboxUrl && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -878,7 +934,7 @@ function SplitView() {
                                             children: "Open"
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 402,
+                                            lineNumber: 476,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -893,29 +949,29 @@ function SplitView() {
                                                 d: "M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 404,
+                                                lineNumber: 478,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/SplitView.tsx",
-                                            lineNumber: 403,
+                                            lineNumber: 477,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/SplitView.tsx",
-                                    lineNumber: 396,
+                                    lineNumber: 470,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/SplitView.tsx",
-                            lineNumber: 388,
+                            lineNumber: 462,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/SplitView.tsx",
-                        lineNumber: 387,
+                        lineNumber: 461,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -926,7 +982,7 @@ function SplitView() {
                             title: "Sandbox Preview"
                         }, void 0, false, {
                             fileName: "[project]/components/SplitView.tsx",
-                            lineNumber: 414,
+                            lineNumber: 488,
                             columnNumber: 13
                         }, this) : previewContent ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "w-full h-full overflow-auto p-6",
@@ -936,12 +992,12 @@ function SplitView() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 421,
+                                lineNumber: 495,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/SplitView.tsx",
-                            lineNumber: 420,
+                            lineNumber: 494,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "h-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100",
@@ -955,7 +1011,7 @@ function SplitView() {
                                                 className: "absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-3xl"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 427,
+                                                lineNumber: 501,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -974,28 +1030,28 @@ function SplitView() {
                                                             d: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/SplitView.tsx",
-                                                            lineNumber: 431,
+                                                            lineNumber: 505,
                                                             columnNumber: 25
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/SplitView.tsx",
-                                                        lineNumber: 430,
+                                                        lineNumber: 504,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/SplitView.tsx",
-                                                    lineNumber: 429,
+                                                    lineNumber: 503,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 428,
+                                                lineNumber: 502,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 426,
+                                        lineNumber: 500,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1006,7 +1062,7 @@ function SplitView() {
                                                 children: "No Preview Yet"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 437,
+                                                lineNumber: 511,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$6_$40$opentelemetry$2b$api$40$1$2e$10$2e$0_$40$types$2b$node$40$26$2e$6$2e$6_react$2d$dom$40$19$2e$3$2e$1_react$40$19$2e$3$2e$1_$5f$react$40$19$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1014,45 +1070,45 @@ function SplitView() {
                                                 children: "Start a conversation to create and preview your project in real-time"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/SplitView.tsx",
-                                                lineNumber: 438,
+                                                lineNumber: 512,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/SplitView.tsx",
-                                        lineNumber: 436,
+                                        lineNumber: 510,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/SplitView.tsx",
-                                lineNumber: 425,
+                                lineNumber: 499,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/SplitView.tsx",
-                            lineNumber: 424,
+                            lineNumber: 498,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/SplitView.tsx",
-                        lineNumber: 412,
+                        lineNumber: 486,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/SplitView.tsx",
-                lineNumber: 385,
+                lineNumber: 459,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/SplitView.tsx",
-        lineNumber: 200,
+        lineNumber: 274,
         columnNumber: 5
     }, this);
 }
-_s(SplitView, "kt3UqgT2n42k+/zD5I7Q7xjePuE=");
+_s(SplitView, "LV5YRiXTpJpBAIf4KJUHc9bPl5M=");
 _c = SplitView;
 var _c;
 __turbopack_context__.k.register(_c, "SplitView");
