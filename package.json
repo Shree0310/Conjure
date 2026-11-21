@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.10.0",
+    "@octokit/app": "^16.1.4",
     "@vercel/sandbox": "^4.0.0",
     "dotenv": "^18.0.10",
     "next": "^16.4.6",
